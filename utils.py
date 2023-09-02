@@ -1,8 +1,7 @@
 import json
 
 def extract_route(request):
-    linhas = request.split(" ")
-    return linhas[1][1:]
+     return request.split()[1][1:] if len(request.split()) > 1 else ""
 
 def read_file(path):
     with open(path, "rb") as arquivo:
@@ -19,3 +18,9 @@ def load_template(archive):
     with open("templates/" + archive, 'r') as arquivo:
         conteudo = arquivo.read()
     return conteudo
+
+def build_response(body='', code=200, reason='OK', headers=''):
+    "Retorna a resposta do servidor"
+    if headers == '':
+        headers = "Content-Type: text/html; charset=utf-8"
+    return (f"HTTP/1.1 {code} {reason}\n{headers}\n\n{body}").encode("utf-8")
